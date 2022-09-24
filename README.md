@@ -1,20 +1,20 @@
-# Deploying a React App* to GitHub Pages
+# Fazendo o deploy de um React App* (criado com o create-react-app) no GitHub Pages
 
-\* created using `create-react-app`
+\* criado a partir do `create-react-app`
 
-# Introduction
+# Introdução
 
-In this tutorial, I'll show you how you can create a React app and deploy it to GitHub Pages.
+Este tutorial ([traduzido do inglês do guia escrito por @gitname](https://github.com/gitname/react-gh-pages)) mostra como você pode fazer o deploy da sua aplicação escrita em React usando o GitHub Pages.
 
-To create the React app, I'll be using [`create-react-app`](https://create-react-app.dev/), which is a tool people can use to create a React app from scratch. To deploy the React app, I'll be using [`gh-pages`](https://github.com/tschaub/gh-pages), which is an npm package people can use to deploy things to [GitHub Pages](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages), a free web hosting service provided by GitHub.
+Dessa forma, o primeiro passo será criar um React app. Para este tutorial usaremos o [`create-react-app`](https://create-react-app.dev/), o qual é uma ferramenta que os desenvolvedores podem utilizar para usar e criar um React app do zero. Para fazer o deploy deste app usaremos o [`gh-pages`](https://github.com/tschaub/gh-pages), que é um pacote do npm que as pessoas podem utilizar para fazer o deploy no [GitHub Pages](https://docs.github.com/pt/pages/getting-started-with-github-pages/about-github-pages), que é um serviço de hospedagem web gratuito do próprio GitHub.
 
-If you follow along with this tutorial, you'll end up with a new React app—hosted on GitHub Pages—which you can then customize.
+Se você seguir os passos deste tutorial deverá ter no final um React app propriamente hospedado no GitHub Pages, e que você terá toda a liberdade para customizar como quiser.
 
 # Tutorial
 
-## Prerequisites
+## Pré-requisitos
 
-1. [Node and npm](https://nodejs.org/en/download/) are installed. Here are the versions I'll be using while making this tutorial:
+1. Que o [node e npm](https://nodejs.org/pt-br/download/) estejam instalados. As versões que estarão sendo usadas neste tutorial são:
 
     ```shell
     $ node --version
@@ -23,63 +23,64 @@ If you follow along with this tutorial, you'll end up with a new React app—hos
     $ npm --version
     8.1.2
     ```
-    > Installing npm adds two commands to the system—`npm` and `npx`—both of which I'll be using while making this tutorial.
+    > Ao instalar o npm você terá acesso a dois comandos adicionais dentro do prompt/terminal do seu computador: o `npm` e o `npx`. Ambos serão usados neste tutorial.
 
-2. [Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) is installed. Here's the version I'll be using while making this tutorial:
+2. Que o [git](https://git-scm.com/book/pt-br/v2/Começando-Instalando-o-Git) esteja instalado. Aqui está a versão utilizada por este tutorial:
 
     ```shell
     $ git --version
     git version 2.29.1.windows.1
     ```
 
-3. A [GitHub](https://github.com/signup) account. :octocat:
+3. Uma conta no [GitHub](https://github.com/signup). :octocat:
 
-## Procedure
+## Passo-a-passo
 
-### 1. Create an **empty** repository on GitHub
+### 1. Crie um repositório **vazio** no GitHub
 
-1. Sign into your GitHub account.
-2. Visit the [Create a new repository](https://github.com/new) form.
-3. Fill in the form as follows:
-    - **Repository name:** You can enter any name you want\*.
+1. Faça login na sua conta do GitHub.
+2. Visite o formulário para [criar um novo repositório](https://github.com/new).
+3. Preencha o formulário com as seguintes informações:
+    - **Repository name:** preencha com o nome que preferir\*.
 
-        > \* For a [project site](https://pages.github.com/#project-site), you can enter any name you want. For a [user site](https://pages.github.com/#user-site), GitHub [requires](https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages#types-of-github-pages-sites) that the repository's name have the following format: `{username}.github.io` (e.g. `gitname.github.io`)
+        > \* Para um [site de projeto](https://pages.github.com/#project-site), você pode preencher qualquer nome que quiser. Para um [site de usuário](https://pages.github.com/#user-site), o GitHub [requere](https://docs.github.com/pt/pages/getting-started-with-github-pages/about-github-pages#tipos-de-site-do-github-pages) que o nome do repositório siga o seguinte formato: `{nome do usuário}.github.io` (ex.: `wmonteiro92.github.io`)
         
-        > The name you enter will show up in a few places: (a) in references to the repository throughout GitHub, (b) in the URL of the repository, and (c) in the URL of the deployed React app.
+        > O nome que você informar aparecerá em alguns lugares: (a) nas referências ao repositório dentro de vários lugares do GitHub, (b) na URL do repositório, e (c) na URL do React app disponibilizado ("deployado").
 
-        > In this tutorial, I'll be deploying the React app as a project site.
+        > Neste tutorial faremos o deploy de um React app como um *site de projeto*.
 
-        I'll enter: `react-gh-pages`
+        Dessa forma, informarei como o nome do repositório para este tutorial: `react-gh-pages`
         
-   - **Repository privacy:** Select _Public_ (or _Private_\*).
+   - **Repository privacy:** Selecione _Public_ (ou _Private_\*).
 
-        > \* For [GitHub Free](https://docs.github.com/en/get-started/learning-about-github/githubs-products#github-free-for-user-accounts) users, the only type of repository that can be used with GitHub Pages is _Public_. For [GitHub Pro](https://docs.github.com/en/get-started/learning-about-github/githubs-products#github-pro) users (and other paying users), both _Public_ and _Private_ repositories can be used with GitHub Pages.
+        > \* Para usuários do [GitHub Free](https://docs.github.com/pt/get-started/learning-about-github/githubs-products#github-free-para-contas-pessoais) você é obrigado a escolher o _Public_ se quiser usar o GitHub Pages. Já os usuários do [GitHub Pro](https://docs.github.com/pt/get-started/learning-about-github/githubs-products#github-pro) e demais usuários que pagam pelo GitHub podem escolher tanto o _Public_ como o _Private_ para que façam uso do GitHub Pages.
 
-        I'll choose: _Public_
+        Dessa forma, escolherei o _Public_ para este tutorial.
 
-   - **Initialize repository:** Leave all checkboxes empty.
+   - **Initialize repository:** pode deixar todas as caixas desmarcadas.
 
-        > That will make it so GitHub creates an empty repository, instead of pre-populating the repository with a `README.md`, `.gitignore`, and/or `LICENSE` file.
-4. Submit the form.
+        > Isto fará com que o GitHub crie um repositório totalmente vazio ao invés de deixá-lo já pré-populado com algumas páginas como, por exemplo, o `README.md`, `.gitignore`, e o arquivo de `LICENSE`.
+4. Clique em `Create repository`.
 
-At this point, your GitHub account contains an empty repository, having the name and privacy type that you specified.
+Agora, temos em mãos um repositório vazio dentro da sua conta do GitHub e com o nome e nível de privacidade que você especificou.
 
-### 2. Create a React app
+### 2. Criando um React app
 
-1. Create a React app named `my-app`:
+1. Crie um React app chamado `my-app`:
 
-    > In case you want to use a different name from `my-app` (e.g. `web-ui`), you can accomplish that by replacing all occurrences of `my-app` in this tutorial, with that other name (i.e. `my-app` --> `web-ui`).
+    > Se você precisar de um nome que seja diferente de `my-app` (ex.: `web-ui`), você pode fazê-lo ao substituir todas as menções/vezes em que o texto `my-app` aparece neste tutorial pelo nome que você quer usar (ex.: toda vez que falarmos de `my-app` você substituirá pelo `web-ui` ou qualquer outro nome da sua preferência).
   
     ```shell
     $ npx create-react-app my-app
     ```
 
-    > That command will create a React app written in JavaScript. To create one written in [TypeScript](https://create-react-app.dev/docs/adding-typescript/#installation), you can issue this command instead:
+    > Este comando irá criar um React app feito em JavaScript em seu computador. Se ao invés de usar o JavaScript você preferir usar [TypeScript](https://create-react-app.dev/docs/adding-typescript/#installation), rode o comando abaixo ao invés do comando que acabamos de mencionar acima:
+    
     > ```shell
     > $ npx create-react-app my-app --template typescript
     > ```
 
-    That command will create a new folder named `my-app`, which will contain the source code of a React app.
+    Com isso, você terá uma nova pasta chamada de `my-app` e que terá o código-fonte do seu React app.
 
     > In addition to containing the source code of the React app, that folder is also a Git repository. That characteristic of the folder will come into play in Step 6.    
 
@@ -203,23 +204,23 @@ In this step, I'll show you how you can store the source code of the React app o
     $ git push origin master
     ```
 
-    > I recommend exploring the GitHub repository at this point. It will have two branches: `master` and `gh-pages`. The `master` branch will contain the React app's source code, while the `gh-pages` branch will contain the distributable version of the React app.
+    > Recomendamos que você explore o repositório do GitHub neste momento. Ele terá dois branches: `master` e `gh-pages`. O branch `master` terá o código-fonte do React app, e o branch `gh-pages` terá a versão do seu React app que pode ser disponibilizada para consumo pelas pessoas.
+    
+# Referências
 
-# References
-
-1. [The official `create-react-app` deployment guide](https://create-react-app.dev/docs/deployment/#github-pages)
+1. [O guia oficial de deploy do `create-react-app`](https://create-react-app.dev/docs/deployment/#github-pages)
 2. [GitHub blog: Build and deploy GitHub Pages from any branch](https://github.blog/changelog/2020-09-03-build-and-deploy-github-pages-from-any-branch/)
 3. [Preserving the `CNAME` file when using a custom domain](https://github.com/gitname/react-gh-pages/issues/89#issuecomment-1207271670)
 
-# Notes
+# Notas
 
-- Special thanks to GitHub (the company) for providing us with the GitHub Pages hosting service for free.
-- And now, time to turn the default React app generated by `create-react-app` into something unique!
-- This repository consists of two branches: 
-    - `master` - the _source code_ of the React app
-    - `gh-pages` - the React app _built from_ that source code
+- Agradecimentos especiais ao GitHub (a empresa) por ter disponibilizado para nós o serviço GitHub Pages gratuitamente.
+- E agora é hora de fazer com que o seu `create-react-app` tenha a sua cara, trazendo as suas customizações do jeito que você quiser!
+- Este repositório possui dois branches:
+    - `master` - o _código-fonte_ do React app
+    - `gh-pages` - o React app _feito a partir_ do código-fonte
 
- # Contributors
+# Contribuidores da versão original do guia ([em inglês](https://github.com/gitname/react-gh-pages))
 
 Thanks to these people for contributing to the maintenance of this tutorial.
 
